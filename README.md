@@ -1,3 +1,10 @@
+[![Build Status](https://travis-ci.org/larapie/larapie.svg?branch=master)](https://travis-ci.org/larapie/larapie)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/larapie/actions/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/larapie/actions/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/larapie/actions/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/larapie/actions/?branch=master)
+![StyleCI](https://github.styleci.io/repos/194435943/shield?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/larapie/actions/v/stable)](https://packagist.org/packages/larapie/actions)
+[![Total Downloads](https://poser.pugx.org/larapie/actions/downloads)](https://packagist.org/packages/larapie/actions)
+
 # Larapie Actions
 ⚡️ Laravel components that take care of one specific task
 
