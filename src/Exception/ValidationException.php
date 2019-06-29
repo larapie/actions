@@ -22,6 +22,7 @@ class ValidationException extends \Exception
                 $baseMessage = $baseMessage.' - '.$message;
             }
         }
+
         return $baseMessage;
     }
 }
