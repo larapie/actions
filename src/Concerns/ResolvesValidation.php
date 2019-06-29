@@ -97,7 +97,9 @@ trait ResolvesValidation
 
     protected function failedValidation()
     {
-        throw new \Larapie\Actions\Exception\ValidationException($this->validator);
+        throw (new ValidationException($this->validator))
+                    ->errorBag($this->errorBag)
+                    ->redirectTo($this->getRedirectUrl());
     }
 
     protected function getRedirectUrl()
