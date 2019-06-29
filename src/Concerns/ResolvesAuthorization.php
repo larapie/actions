@@ -9,7 +9,7 @@ trait ResolvesAuthorization
 {
     protected function resolveAuthorization()
     {
-        if (!$this->passesAuthorization()) {
+        if (! $this->passesAuthorization()) {
             $this->failedAuthorization();
         }
 

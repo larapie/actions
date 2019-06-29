@@ -44,7 +44,7 @@ trait SuccessHook
         //CHOOSE the first value that doesn't have a type
         collect($parameters)
             ->filter(function (\ReflectionParameter $parameter) {
-                return !$parameter->hasType();
+                return ! $parameter->hasType();
             })
             ->each(function (\ReflectionParameter $parameter) use ($result, &$extraParameter) {
                 if ($extraParameter === null) {

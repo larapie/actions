@@ -31,7 +31,7 @@ trait RunsAsController
             return $this->jsonResponse($result, $request);
         }
 
-        if (method_exists($this, 'htmlResponse') && !$request->wantsJson()) {
+        if (method_exists($this, 'htmlResponse') && ! $request->wantsJson()) {
             return $this->htmlResponse($result, $request);
         }
 
