@@ -5,7 +5,7 @@ namespace Larapie\Actions;
 use Illuminate\Support\ServiceProvider;
 use Larapie\Actions\Commands\MakeActionCommand;
 
-class ActionServiceProvider extends ServiceProvider
+class LarapieActionServiceProvider extends ServiceProvider
 {
     public function boot()
     {

@@ -11,7 +11,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 {
     protected function getPackageProviders($app)
     {
-        return ['Larapie\Actions\ActionServiceProvider'];
+        return ['Larapie\Actions\LarapieActionServiceProvider'];
     }
 
     protected function getEnvironmentSetUp($app)
