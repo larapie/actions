@@ -16,6 +16,7 @@ abstract class Action extends Controller
     use Concerns\RunsAsController;
     use Concerns\SuccessHook;
     use Concerns\FailHook;
+    use Concerns\HandleFailedValidation;
 
     protected $actingAs;
     protected $runningAs = 'object';
