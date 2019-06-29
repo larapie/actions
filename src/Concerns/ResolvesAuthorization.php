@@ -2,14 +2,14 @@
 
 namespace Larapie\Actions\Concerns;
 
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\Gate;
 
 trait ResolvesAuthorization
 {
     protected function resolveAuthorization()
     {
-        if (! $this->passesAuthorization()) {
+        if (!$this->passesAuthorization()) {
             $this->failedAuthorization();
         }
 
@@ -24,7 +24,7 @@ trait ResolvesAuthorization
 
         return true;
     }
-    
+
     protected function failedAuthorization()
     {
         throw new AuthorizationException('This action is unauthorized.');

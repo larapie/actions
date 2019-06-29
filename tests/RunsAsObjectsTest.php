@@ -11,8 +11,8 @@ class RunsAsObjectsTest extends TestCase
     {
         $action = new SimpleCalculator([
             'operation' => 'addition',
-            'left' => 3,
-            'right' => 5,
+            'left'      => 3,
+            'right'     => 5,
         ]);
 
         $this->assertEquals(8, $action->run());
@@ -23,9 +23,9 @@ class RunsAsObjectsTest extends TestCase
     {
         $action = new SimpleCalculator([
             'operation' => 'addition',
-            'left' => 3,
-            'right' => 5,
-            'foo' => 'This variable is not used in the action.',
+            'left'      => 3,
+            'right'     => 5,
+            'foo'       => 'This variable is not used in the action.',
         ]);
 
         $this->assertEquals('addition', $action->operation);
@@ -39,8 +39,8 @@ class RunsAsObjectsTest extends TestCase
     {
         $action = new SimpleCalculator([
             'operation' => 'addition',
-            'left' => 3,
-            'right' => 5,
+            'left'      => 3,
+            'right'     => 5,
         ]);
 
         $action->right = 7;
@@ -62,8 +62,8 @@ class RunsAsObjectsTest extends TestCase
     {
         $action = (new SimpleCalculator())->fill([
             'operation' => 'addition',
-            'left' => 3,
-            'right' => 5,
+            'left'      => 3,
+            'right'     => 5,
         ]);
 
         $this->assertEquals('addition', $action->operation);
@@ -76,8 +76,8 @@ class RunsAsObjectsTest extends TestCase
     {
         $response = (new SimpleCalculator())->run([
             'operation' => 'addition',
-            'left' => 3,
-            'right' => 5,
+            'left'      => 3,
+            'right'     => 5,
         ]);
 
         $this->assertEquals(8, $response);
@@ -98,14 +98,14 @@ class RunsAsObjectsTest extends TestCase
     {
         $action = new SimpleCalculator([
             'operation' => 'addition',
-            'left' => 3,
-            'right' => 5,
+            'left'      => 3,
+            'right'     => 5,
         ]);
 
         $this->assertEquals([
             'operation' => 'addition',
-            'left' => 3,
-            'right' => 5,
+            'left'      => 3,
+            'right'     => 5,
         ], $action->all());
     }
 
@@ -114,17 +114,17 @@ class RunsAsObjectsTest extends TestCase
     {
         $action = new SimpleCalculator([
             'operation' => 'addition',
-            'left' => 3,
-            'right' => 5,
+            'left'      => 3,
+            'right'     => 5,
         ]);
 
         $this->assertEquals(
-            ['operation' => 'addition'], 
+            ['operation' => 'addition'],
             $action->only('operation')
         );
 
         $this->assertEquals(
-            ['right' => 5], 
+            ['right' => 5],
             $action->except('operation', 'left')
         );
     }

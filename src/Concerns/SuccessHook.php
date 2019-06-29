@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Larapie\Actions\Concerns;
-
 
 trait SuccessHook
 {
@@ -29,10 +27,11 @@ trait SuccessHook
                 return $parameter->hasType();
             })
             ->filter(function (\ReflectionParameter $parameter) use ($result) {
-                return (gettype($result) === "object" ? get_class($result) : gettype($result)) === $parameter->getType()->getName();
+                return (gettype($result) === 'object' ? get_class($result) : gettype($result)) === $parameter->getType()->getName();
             })
             ->each(function (\ReflectionParameter $parameter) use ($result, &$extraParameter) {
                 $extraParameter = [$parameter->getName() => $result];
+
                 return false;
             });
 
@@ -52,6 +51,7 @@ trait SuccessHook
                     $extraParameter = [$parameter->getName() => $result];
                 } elseif (strcasecmp(substr(strrchr(get_class($result), '\\'), 1), $parameter->getName()) == 0) {
                     $extraParameter = [$parameter->getName() => $result];
+
                     return false;
                 }
             });

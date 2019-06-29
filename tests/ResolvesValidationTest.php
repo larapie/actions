@@ -2,8 +2,8 @@
 
 namespace Larapie\Actions\Tests;
 
-use Larapie\Actions\Action;
 use Illuminate\Validation\ValidationException;
+use Larapie\Actions\Action;
 use Larapie\Actions\Tests\Actions\SimpleCalculator;
 
 class ResolvesValidationTest extends TestCase
@@ -13,16 +13,17 @@ class ResolvesValidationTest extends TestCase
     {
         $attributes = [
             'operation' => 'substraction',
-            'left' => 5,
-            'right' => 2,
+            'left'      => 5,
+            'right'     => 2,
         ];
 
         $action = new class($attributes) extends SimpleCalculator {
-            public function rules() {
+            public function rules()
+            {
                 return [
                     'operation' => 'required|in:addition,substraction',
-                    'left' => 'required|integer',
-                    'right' => 'required|integer',
+                    'left'      => 'required|integer',
+                    'right'     => 'required|integer',
                 ];
             }
         };
@@ -36,14 +37,15 @@ class ResolvesValidationTest extends TestCase
     {
         $attributes = [
             'operation' => 'addition',
-            'left' => 5,
-            'right' => 2,
+            'left'      => 5,
+            'right'     => 2,
         ];
 
         $action = new class($attributes) extends SimpleCalculator {
-            public function rules() {
+            public function rules()
+            {
                 return [
-                    'left' => 'required|integer',
+                    'left'  => 'required|integer',
                     'right' => 'required|integer',
                 ];
             }
@@ -60,15 +62,16 @@ class ResolvesValidationTest extends TestCase
     {
         $attributes = [
             'operation' => 'multiplication',
-            'left' => 'five',
+            'left'      => 'five',
         ];
 
         $action = new class($attributes) extends SimpleCalculator {
-            public function rules() {
+            public function rules()
+            {
                 return [
                     'operation' => 'required|in:addition,substraction',
-                    'left' => 'required|integer',
-                    'right' => 'required|integer',
+                    'left'      => 'required|integer',
+                    'right'     => 'required|integer',
                 ];
             }
         };
@@ -80,8 +83,8 @@ class ResolvesValidationTest extends TestCase
         } catch (ValidationException $e) {
             $this->assertEquals([
                 'operation' => ['The selected operation is invalid.'],
-                'left' => ['The left must be an integer.'],
-                'right' => ['The right field is required.'],
+                'left'      => ['The left must be an integer.'],
+                'right'     => ['The right field is required.'],
             ], $e->errors());
         }
     }
@@ -91,12 +94,13 @@ class ResolvesValidationTest extends TestCase
     {
         $attributes = [
             'operation' => 'substraction',
-            'left' => 5,
-            'right' => 10,
+            'left'      => 5,
+            'right'     => 10,
         ];
 
         $action = new class($attributes) extends SimpleCalculator {
-            public function withValidator($validator) {
+            public function withValidator($validator)
+            {
                 $validator->after(function ($validator) {
                     if ($this->operation === 'substraction' && $this->left <= $this->right) {
                         $validator->errors()->add('left', 'Left must be greater than right when substracting.');
@@ -120,7 +124,8 @@ class ResolvesValidationTest extends TestCase
     public function it_can_create_its_own_validator_instance()
     {
         $action = new class(['operation' => 'valid']) extends Action {
-            public function validator($factory) {
+            public function validator($factory)
+            {
                 return $factory->make($this->all(), ['operation' => 'in:valid']);
             }
         };
@@ -132,7 +137,8 @@ class ResolvesValidationTest extends TestCase
     public function it_can_validate_data_directly_in_the_handle_method()
     {
         $action = new class(['operation' => 'valid']) extends Action {
-            public function handle() {
+            public function handle()
+            {
                 $first = $this->validate(['operation' => 'in:valid']);
 
                 try {

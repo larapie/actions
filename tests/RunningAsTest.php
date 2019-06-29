@@ -18,12 +18,11 @@ class RunningAsTest extends TestCase
     /** @test */
     public function it_keeps_track_of_how_actions_ran_as_controllers()
     {
-        $action = new SimpleCalculator;
-        $request = (new Request)->merge(['operation' => 'addition']);
+        $action = new SimpleCalculator();
+        $request = (new Request())->merge(['operation' => 'addition']);
 
         $action->runAsController($request);
 
         $this->assertTrue($action->runningAs('controller'));
     }
-
 }

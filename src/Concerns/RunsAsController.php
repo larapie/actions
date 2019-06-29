@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 trait RunsAsController
 {
     protected $request;
-    
+
     public function __invoke(Request $request)
     {
         return $this->runAsController($request);
@@ -31,7 +31,7 @@ trait RunsAsController
             return $this->jsonResponse($result, $request);
         }
 
-        if (method_exists($this, 'htmlResponse') && ! $request->wantsJson()) {
+        if (method_exists($this, 'htmlResponse') && !$request->wantsJson()) {
             return $this->htmlResponse($result, $request);
         }
 
