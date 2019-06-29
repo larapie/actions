@@ -12,6 +12,7 @@ class SimpleCalculator extends Action
             if ($request->operation === 'middleware') {
                 abort(400, 'Intercepted by a middleware');
             }
+
             return $next($request);
         });
     }
@@ -24,7 +25,7 @@ class SimpleCalculator extends Action
 
             case 'substraction':
                 return $left - $right;
-            
+
             default:
                 throw new \Exception("Operation [$operation] not supported.");
         }

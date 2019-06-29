@@ -2,10 +2,10 @@
 
 namespace Larapie\Actions\Tests;
 
-use Larapie\Actions\Tests\Stubs\User;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Validation\ValidationException;
 use Larapie\Actions\Tests\Actions\UpdateProfile;
+use Larapie\Actions\Tests\Stubs\User;
 
 class NestedActionsTest extends TestCase
 {
@@ -13,7 +13,7 @@ class NestedActionsTest extends TestCase
     public function an_action_can_conditionally_delegate_to_other_actions()
     {
         $user = new User([
-            'name' => 'Alice',
+            'name'   => 'Alice',
             'avatar' => 'alice.jpg',
         ]);
 
@@ -21,9 +21,9 @@ class NestedActionsTest extends TestCase
         $this->assertEquals('alice.jpg', $user->avatar);
 
         // Here UpdateProfile delegates to UpdateProfileDetails.
-        $result = (new UpdateProfile)->run([
+        $result = (new UpdateProfile())->run([
             'user' => $user,
-            'name' => 'Bob'
+            'name' => 'Bob',
         ]);
 
         $this->assertEquals('Bob', $user->name);
@@ -31,8 +31,8 @@ class NestedActionsTest extends TestCase
         $this->assertEquals('UpdateProfileDetails ran as object', $result);
 
         // Here UpdateProfile delegates to UpdateProfilePicture.
-        $result = (new UpdateProfile)->run([
-            'user' => $user,
+        $result = (new UpdateProfile())->run([
+            'user'   => $user,
             'avatar' => 'bob.png',
         ]);
 
@@ -48,7 +48,7 @@ class NestedActionsTest extends TestCase
 
         try {
             $user = new User(['role' => 'cannot_update_name']);
-            (new UpdateProfile)->run(['user' => $user, 'name' => 'some name']);
+            (new UpdateProfile())->run(['user' => $user, 'name' => 'some name']);
             $this->fail('Expected a AuthorizationException');
         } catch (AuthorizationException $e) {
             //
@@ -56,7 +56,7 @@ class NestedActionsTest extends TestCase
 
         try {
             $user = new User(['role' => 'cannot_update_avatar']);
-            (new UpdateProfile)->run(['user' => $user, 'avatar' => 'some avatar']);
+            (new UpdateProfile())->run(['user' => $user, 'avatar' => 'some avatar']);
             $this->fail('Expected a AuthorizationException');
         } catch (AuthorizationException $e) {
             //
@@ -67,14 +67,14 @@ class NestedActionsTest extends TestCase
     public function validation_errors_are_delegated()
     {
         try {
-            (new UpdateProfile)->run(['user' => new User, 'name' => 'invalid_name']);
+            (new UpdateProfile())->run(['user' => new User(), 'name' => 'invalid_name']);
             $this->fail('Expected a ValidationException');
         } catch (ValidationException $e) {
             $this->assertEquals(['name'], array_keys($e->errors()));
         }
 
         try {
-            (new UpdateProfile)->run(['user' => new User, 'avatar' => 'invalid_avatar']);
+            (new UpdateProfile())->run(['user' => new User(), 'avatar' => 'invalid_avatar']);
             $this->fail('Expected a ValidationException');
         } catch (ValidationException $e) {
             $this->assertEquals(['avatar'], array_keys($e->errors()));

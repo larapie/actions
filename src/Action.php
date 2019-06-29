@@ -2,9 +2,9 @@
 
 namespace Larapie\Actions;
 
-use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Throwable;
 
 abstract class Action extends Controller
@@ -30,12 +30,12 @@ abstract class Action extends Controller
         }
     }
 
-    public static function createFrom(Action $action)
+    public static function createFrom(self $action)
     {
-        return (new static)->fill($action->all());
+        return (new static())->fill($action->all());
     }
 
-    public function runAs(Action $action)
+    public function runAs(self $action)
     {
         if ($action->runningAs('controller')) {
             return $this->runAsController($action->getRequest());
@@ -64,7 +64,7 @@ abstract class Action extends Controller
 
     public function resolveBeforeHook()
     {
-        $method = 'as' . Str::studly($this->runningAs);
+        $method = 'as'.Str::studly($this->runningAs);
 
         if (method_exists($this, $method)) {
             return $this->resolveAndCall($this, $method);

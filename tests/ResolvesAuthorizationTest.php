@@ -2,10 +2,10 @@
 
 namespace Larapie\Actions\Tests;
 
-use Illuminate\Support\Facades\Gate;
-use Larapie\Actions\Tests\Stubs\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\Gate;
 use Larapie\Actions\Tests\Actions\SimpleCalculator;
+use Larapie\Actions\Tests\Stubs\User;
 
 class ResolvesAuthorizationTest extends TestCase
 {
@@ -14,12 +14,13 @@ class ResolvesAuthorizationTest extends TestCase
     {
         $attributes = [
             'operation' => 'addition',
-            'left' => 1,
-            'right' => 2,
+            'left'      => 1,
+            'right'     => 2,
         ];
 
         $action = new class($attributes) extends SimpleCalculator {
-            public function authorize() {
+            public function authorize()
+            {
                 return $this->operation === 'addition';
             }
         };
@@ -33,8 +34,9 @@ class ResolvesAuthorizationTest extends TestCase
     {
         $this->expectException(AuthorizationException::class);
 
-        $action = new class extends SimpleCalculator {
-            public function authorize() {
+        $action = new class() extends SimpleCalculator {
+            public function authorize()
+            {
                 return false;
             }
         };
@@ -51,7 +53,8 @@ class ResolvesAuthorizationTest extends TestCase
         });
 
         $action = new class(['operation' => 'addition']) extends SimpleCalculator {
-            public function authorize() {
+            public function authorize()
+            {
                 return $this->can('perform-calculation', $this->operation);
             }
         };
@@ -70,7 +73,8 @@ class ResolvesAuthorizationTest extends TestCase
         });
 
         $action = new class(['operation' => 'addition']) extends SimpleCalculator {
-            public function authorize() {
+            public function authorize()
+            {
                 return $this->can('perform-calculation');
             }
         };

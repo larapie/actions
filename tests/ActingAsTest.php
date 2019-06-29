@@ -2,8 +2,8 @@
 
 namespace Larapie\Actions\Tests;
 
-use Larapie\Actions\Tests\Actions\SimpleCalculator;
 use Illuminate\Http\Request;
+use Larapie\Actions\Tests\Actions\SimpleCalculator;
 
 class ActingAsTest extends TestCase
 {
@@ -18,7 +18,7 @@ class ActingAsTest extends TestCase
     {
         $this->actingAs($user = $this->createUser());
 
-        $action = new SimpleCalculator;
+        $action = new SimpleCalculator();
 
         $this->assertEquals($user->id, $action->user()->id);
     }
@@ -26,7 +26,7 @@ class ActingAsTest extends TestCase
     /** @test */
     public function it_returns_null_when_unauthenticated()
     {
-        $action = new SimpleCalculator;
+        $action = new SimpleCalculator();
 
         $this->assertNull($action->user());
     }
@@ -36,7 +36,7 @@ class ActingAsTest extends TestCase
     {
         $this->actingAs($userA = $this->createUser());
 
-        $action = new SimpleCalculator;
+        $action = new SimpleCalculator();
         $action->actingAs($userB = $this->createUser());
 
         $this->assertEquals($userB->id, $action->user()->id);
@@ -45,13 +45,13 @@ class ActingAsTest extends TestCase
     /** @test */
     public function it_takes_the_user_from_the_request_when_ran_as_controller()
     {
-        $request = (new Request)
+        $request = (new Request())
             ->merge(['operation' => 'addition'])
             ->setUserResolver(function () {
                 return $this->createUser(['name' => 'Alice From Request']);
             });
 
-        $action = new SimpleCalculator;
+        $action = new SimpleCalculator();
         $action->runAsController($request);
 
         $this->assertEquals('Alice From Request', $action->user()->name);

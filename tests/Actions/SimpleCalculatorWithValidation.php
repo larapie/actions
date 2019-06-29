@@ -13,8 +13,8 @@ class SimpleCalculatorWithValidation extends SimpleCalculator
     {
         return [
             'operation' => 'required|in:addition,substraction',
-            'left' => 'required|integer',
-            'right' => 'required|integer',
+            'left'      => 'required|integer',
+            'right'     => 'required|integer',
         ];
     }
 }
