@@ -1,8 +1,8 @@
 <?php
 
-namespace Lorisleiva\Actions\Tests;
+namespace Larapie\Actions\Tests;
 
-use Lorisleiva\Actions\Tests\Actions\SimpleCalculator;
+use Larapie\Actions\Tests\Actions\SimpleCalculator;
 use Illuminate\Http\Request;
 
 class ActingAsTest extends TestCase

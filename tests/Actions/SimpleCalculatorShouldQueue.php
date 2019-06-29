@@ -1,6 +1,6 @@
 <?php
 
-namespace Lorisleiva\Actions\Tests\Actions;
+namespace Larapie\Actions\Tests\Actions;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 

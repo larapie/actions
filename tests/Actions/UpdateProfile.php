@@ -1,12 +1,13 @@
 <?php
 
-namespace Lorisleiva\Actions\Tests\Actions;
+namespace Larapie\Actions\Tests\Actions;
 
-use Lorisleiva\Actions\Action;
-use Lorisleiva\Actions\Tests\Stubs\User;
+use Larapie\Actions\Action;
+use Larapie\Actions\Tests\Stubs\User;
 
 class UpdateProfile extends Action
 {
+
     public function handle()
     {
         if ($this->has('avatar')) {

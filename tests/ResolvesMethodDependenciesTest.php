@@ -1,10 +1,10 @@
 <?php
 
-namespace Lorisleiva\Actions\Tests;
+namespace Larapie\Actions\Tests;
 
 use Illuminate\Http\Request;
-use Lorisleiva\Actions\Action;
-use Lorisleiva\Actions\Tests\Stubs\User;
+use Larapie\Actions\Action;
+use Larapie\Actions\Tests\Stubs\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ResolvesMethodDependenciesTest extends TestCase

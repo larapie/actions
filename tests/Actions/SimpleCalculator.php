@@ -1,8 +1,8 @@
 <?php
 
-namespace Lorisleiva\Actions\Tests\Actions;
+namespace Larapie\Actions\Tests\Actions;
 
-use Lorisleiva\Actions\Action;
+use Larapie\Actions\Action;
 
 class SimpleCalculator extends Action
 {

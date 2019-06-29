@@ -1,27 +1,22 @@
 <?php
 
-namespace Lorisleiva\Actions;
+namespace Larapie\Actions;
 
 use Illuminate\Support\Str;
-use Illuminate\Bus\Queueable;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
+use Throwable;
 
 abstract class Action extends Controller
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
     use Concerns\SerializesModels;
     use Concerns\HasAttributes;
     use Concerns\ResolvesMethodDependencies;
     use Concerns\ResolvesAuthorization;
     use Concerns\ResolvesValidation;
     use Concerns\RunsAsController;
-    use Concerns\RunsAsListener;
-    use Concerns\RunsAsJob;
+    use Concerns\SuccessHook;
+    use Concerns\FailHook;
 
     protected $actingAs;
     protected $runningAs = 'object';
@@ -42,14 +37,6 @@ abstract class Action extends Controller
 
     public function runAs(Action $action)
     {
-        if ($action->runningAs('job')) {
-            return $this->runAsJob();
-        }
-        
-        if ($action->runningAs('listener')) {
-            return $this->runAsListener();
-        }
-        
         if ($action->runningAs('controller')) {
             return $this->runAsController($action->getRequest());
         }
@@ -64,7 +51,15 @@ abstract class Action extends Controller
         $this->resolveAuthorization();
         $this->resolveValidation();
 
-        return $this->resolveAndCall($this, 'handle');
+        try {
+            $value = $this->resolveAndCall($this, 'handle');
+        } catch (Throwable $exception) {
+            $this->failHook($exception);
+        }
+
+        return tap($value, function ($value) {
+            $this->successHook($value);
+        });
     }
 
     public function resolveBeforeHook()

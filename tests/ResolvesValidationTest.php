@@ -1,10 +1,10 @@
 <?php
 
-namespace Lorisleiva\Actions\Tests;
+namespace Larapie\Actions\Tests;
 
-use Lorisleiva\Actions\Action;
+use Larapie\Actions\Action;
 use Illuminate\Validation\ValidationException;
-use Lorisleiva\Actions\Tests\Actions\SimpleCalculator;
+use Larapie\Actions\Tests\Actions\SimpleCalculator;
 
 class ResolvesValidationTest extends TestCase
 {

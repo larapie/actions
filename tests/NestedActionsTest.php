@@ -1,11 +1,11 @@
 <?php
 
-namespace Lorisleiva\Actions\Tests;
+namespace Larapie\Actions\Tests;
 
-use Lorisleiva\Actions\Tests\Stubs\User;
+use Larapie\Actions\Tests\Stubs\User;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
-use Lorisleiva\Actions\Tests\Actions\UpdateProfile;
+use Larapie\Actions\Tests\Actions\UpdateProfile;
 
 class NestedActionsTest extends TestCase
 {

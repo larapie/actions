@@ -1,17 +1,17 @@
 <?php
 
-namespace Lorisleiva\Actions\Tests;
+namespace Larapie\Actions\Tests;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
-use Lorisleiva\Actions\Tests\Stubs\User;
+use Larapie\Actions\Tests\Stubs\User;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
     protected function getPackageProviders($app)
     {
-        return ['Lorisleiva\Actions\ActionServiceProvider'];
+        return ['Larapie\Actions\ActionServiceProvider'];
     }
 
     protected function getEnvironmentSetUp($app)

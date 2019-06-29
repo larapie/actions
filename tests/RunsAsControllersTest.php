@@ -1,11 +1,11 @@
 <?php
 
-namespace Lorisleiva\Actions\Tests;
+namespace Larapie\Actions\Tests;
 
 use Illuminate\Http\Request;
-use Lorisleiva\Actions\Action;
-use Lorisleiva\Actions\Tests\Actions\SimpleCalculator;
-use Lorisleiva\Actions\Tests\Actions\SimpleCalculatorWithValidation;
+use Larapie\Actions\Action;
+use Larapie\Actions\Tests\Actions\SimpleCalculator;
+use Larapie\Actions\Tests\Actions\SimpleCalculatorWithValidation;
 
 class RunsAsControllersTest extends TestCase
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Lorisleiva\Actions\Tests;
+namespace Larapie\Actions\Tests;
 
 use Illuminate\Http\Request;
-use Lorisleiva\Actions\Tests\Actions\SimpleCalculator;
+use Larapie\Actions\Tests\Actions\SimpleCalculator;
 
 class RunningAsTest extends TestCase
 {
@@ -26,23 +26,4 @@ class RunningAsTest extends TestCase
         $this->assertTrue($action->runningAs('controller'));
     }
 
-    /** @test */
-    public function it_keeps_track_of_how_actions_ran_as_listeners()
-    {
-        $action = new SimpleCalculator(['operation' => 'addition']);
-
-        $action->runAsListener();
-
-        $this->assertTrue($action->runningAs('listener'));
-    }
-
-    /** @test */
-    public function it_keeps_track_of_how_actions_ran_as_jobs()
-    {
-        $action = new SimpleCalculator(['operation' => 'addition']);
-
-        $action->runAsJob();
-
-        $this->assertTrue($action->runningAs('job'));
-    }
 }

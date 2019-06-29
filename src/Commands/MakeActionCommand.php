@@ -1,6 +1,6 @@
 <?php
 
-namespace Lorisleiva\Actions\Commands;
+namespace Larapie\Actions\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 

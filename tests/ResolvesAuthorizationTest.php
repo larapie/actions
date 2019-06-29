@@ -1,11 +1,11 @@
 <?php
 
-namespace Lorisleiva\Actions\Tests;
+namespace Larapie\Actions\Tests;
 
 use Illuminate\Support\Facades\Gate;
-use Lorisleiva\Actions\Tests\Stubs\User;
+use Larapie\Actions\Tests\Stubs\User;
 use Illuminate\Auth\Access\AuthorizationException;
-use Lorisleiva\Actions\Tests\Actions\SimpleCalculator;
+use Larapie\Actions\Tests\Actions\SimpleCalculator;
 
 class ResolvesAuthorizationTest extends TestCase
 {

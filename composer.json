@@ -1,14 +1,12 @@
 {
-    "name": "lorisleiva/laravel-actions",
+    "name": "larapie/actions",
     "description": "Laravel components that take care of one specific task",
     "keywords": [
         "laravel",
         "component",
-        "action",
-        "controller",
-        "job"
+        "action"
     ],
-    "homepage": "https://github.com/lorisleiva/laravel-actions",
+    "homepage": "https://github.com/larapie/actions",
     "license": "MIT",
     "authors": [
         {
@@ -27,18 +25,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Lorisleiva\\Actions\\": "src"
+            "Larapie\\Actions\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Lorisleiva\\Actions\\Tests\\": "tests"
+            "Larapie\\Actions\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Lorisleiva\\Actions\\ActionServiceProvider"
+                "Larapie\\Actions\\LarapieActionServiceProvider"
             ]
         }
     },

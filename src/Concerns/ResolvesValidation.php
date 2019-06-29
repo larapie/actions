@@ -1,6 +1,6 @@
 <?php
 
-namespace Lorisleiva\Actions\Concerns;
+namespace Larapie\Actions\Concerns;
 
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Validation\ValidationException;

@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-use Lorisleiva\Actions\Action;
+use Larapie\Actions\Action;
 
 class DummyClass extends Action
 {

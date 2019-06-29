@@ -1,6 +1,6 @@
 <?php
 
-namespace Lorisleiva\Actions\Tests\Stubs;
+namespace Larapie\Actions\Tests\Stubs;
 
 use Illuminate\Foundation\Auth\User as BaseUser;
 

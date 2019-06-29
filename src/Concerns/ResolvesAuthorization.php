@@ -1,6 +1,6 @@
 <?php
 
-namespace Lorisleiva\Actions\Concerns;
+namespace Larapie\Actions\Concerns;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Access\AuthorizationException;
