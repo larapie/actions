@@ -70,6 +70,28 @@ class SuccessHookTest extends TestCase
     }
 
     /** @test */
+    public function it_resolves_parameter_with_same_name_as_result_type()
+    {
+        $action = new class() extends UpdateProfile {
+            public $result;
+
+            public function handle()
+            {
+                return new User();
+            }
+
+            protected function onSuccess($result, $user)
+            {
+                $this->result = $user;
+            }
+        };
+
+        $result = $action->run();
+
+        $this->assertEquals($result, $action->result);
+    }
+
+    /** @test */
     public function it_resolves_first_parameter_of_correct_type()
     {
         $action = new class() extends UpdateProfile {

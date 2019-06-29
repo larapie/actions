@@ -4,6 +4,7 @@ namespace Larapie\Actions\Concerns;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Str;
+use Larapie\Actions\Exception\MethodDoesNotExistException;
 use ReflectionMethod;
 use ReflectionParameter;
 
@@ -11,6 +12,10 @@ trait ResolvesMethodDependencies
 {
     protected function resolveAndCall($instance, $method, $extras = [])
     {
+        if (!method_exists($instance, $method)) {
+            throw new MethodDoesNotExistException("method $method not found on " . get_class($instance));
+        }
+
         $parameters = $this->resolveMethodDependencies($instance, $method, $extras);
 
         return $instance->{$method}(...$parameters);
@@ -18,10 +23,6 @@ trait ResolvesMethodDependencies
 
     protected function resolveMethodDependencies($instance, $method, $extras = [])
     {
-        if (!method_exists($instance, $method)) {
-            return [];
-        }
-
         $reflector = new ReflectionMethod($instance, $method);
 
         $handler = function ($parameter) use ($extras) {

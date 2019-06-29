@@ -9,7 +9,6 @@ use Throwable;
 
 abstract class Action extends Controller
 {
-    use Concerns\SerializesModels;
     use Concerns\HasAttributes;
     use Concerns\ResolvesMethodDependencies;
     use Concerns\ResolvesAuthorization;

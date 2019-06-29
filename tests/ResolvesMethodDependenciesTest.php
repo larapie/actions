@@ -5,6 +5,8 @@ namespace Larapie\Actions\Tests;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Larapie\Actions\Action;
+use Larapie\Actions\Exception\MethodDoesNotExistException;
+use Larapie\Actions\Tests\Actions\UpdateProfile;
 use Larapie\Actions\Tests\Stubs\User;
 
 class ResolvesMethodDependenciesTest extends TestCase
@@ -14,11 +16,12 @@ class ResolvesMethodDependenciesTest extends TestCase
     {
         $attributes = [
             'operation' => 'addition',
-            'left'      => 3,
-            'right'     => 5,
+            'left' => 3,
+            'right' => 5,
         ];
 
-        $action = new class($attributes) extends Action {
+        $action = new class($attributes) extends Action
+        {
             public function handle($operation, $left, $right)
             {
                 return compact('operation', 'left', 'right');
@@ -36,10 +39,11 @@ class ResolvesMethodDependenciesTest extends TestCase
     {
         $attributes = [
             'dummy_snaked_case' => 42,
-            'created_at'        => '2019-05-12',
+            'created_at' => '2019-05-12',
         ];
 
-        $action = new class($attributes) extends Action {
+        $action = new class($attributes) extends Action
+        {
             public function handle($dummySnakedCase, $createdAt)
             {
                 return compact('dummySnakedCase', 'createdAt');
@@ -54,7 +58,8 @@ class ResolvesMethodDependenciesTest extends TestCase
     /** @test */
     public function it_returns_null_or_default_when_attribute_is_missing()
     {
-        $action = new class() extends Action {
+        $action = new class() extends Action
+        {
             public function handle($operation, $left = 3)
             {
                 return compact('operation', 'left');
@@ -69,7 +74,8 @@ class ResolvesMethodDependenciesTest extends TestCase
     /** @test */
     public function it_resolves_type_hinted_attributes_from_the_container()
     {
-        $action = new class() extends Action {
+        $action = new class() extends Action
+        {
             public function handle(Dummy $dummy, Request $request)
             {
                 return compact('dummy', 'request');
@@ -86,11 +92,12 @@ class ResolvesMethodDependenciesTest extends TestCase
     {
         $this->loadLaravelMigrations();
         $this->createUser([
-            'name'  => 'John Doe',
+            'name' => 'John Doe',
             'email' => 'john.doe@gmail.com',
         ]);
 
-        $action = new class(['user' => 1]) extends Action {
+        $action = new class(['user' => 1]) extends Action
+        {
             public function handle(User $user)
             {
                 return $user;
@@ -108,11 +115,12 @@ class ResolvesMethodDependenciesTest extends TestCase
     {
         $this->loadLaravelMigrations();
         $this->createUser([
-            'name'  => 'John Doe',
+            'name' => 'John Doe',
             'email' => 'john.doe@gmail.com',
         ]);
 
-        $action = new class(['user' => 1]) extends Action {
+        $action = new class(['user' => 1]) extends Action
+        {
             public function handle(User $user)
             {
             }
@@ -129,7 +137,8 @@ class ResolvesMethodDependenciesTest extends TestCase
     {
         $this->loadLaravelMigrations();
 
-        $action = new class(['user' => 42]) extends Action {
+        $action = new class(['user' => 42]) extends Action
+        {
             public function handle(User $user)
             {
             }
@@ -145,7 +154,8 @@ class ResolvesMethodDependenciesTest extends TestCase
         $this->loadLaravelMigrations();
         $user = $this->createUser();
 
-        $action = new class() extends Action {
+        $action = new class() extends Action
+        {
             public function handle(User $user)
             {
                 return [
@@ -163,6 +173,19 @@ class ResolvesMethodDependenciesTest extends TestCase
 
         $this->assertEquals($user->id, $result['parameter']->id);
         $this->assertEquals('User provided as request payload.', $result['attribute']);
+    }
+
+    /** @test */
+    public function it_throws_exception_when_method_not_found()
+    {
+
+        $action = new class() extends Action
+        {
+        };
+
+        $this->expectException(MethodDoesNotExistException::class);
+        $action->run();
+
     }
 }
 

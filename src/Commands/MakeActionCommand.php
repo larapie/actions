@@ -4,6 +4,9 @@ namespace Larapie\Actions\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 
+/**
+ * @codeCoverageIgnore
+ */
 class MakeActionCommand extends GeneratorCommand
 {
     /**

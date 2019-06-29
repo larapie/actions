@@ -2,9 +2,11 @@
 
 namespace Larapie\Actions\Tests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use Larapie\Actions\Action;
 use Larapie\Actions\Tests\Actions\SimpleCalculator;
+use Larapie\Actions\Tests\Actions\UpdateProfile;
 
 class ResolvesValidationTest extends TestCase
 {
@@ -154,5 +156,27 @@ class ResolvesValidationTest extends TestCase
         $result = $action->run();
         $this->assertEquals(['operation' => 'valid'], $result['first']);
         $this->assertNull($result['second']);
+    }
+
+    /** @test */
+    public function it_triggers_after_validation_method()
+    {
+
+        $action = new class() extends UpdateProfile
+        {
+            public $triggered = false;
+
+            public function handle()
+            {
+
+            }
+
+            protected function afterValidator(Validator $validator)
+            {
+                $this->triggered= true;
+            }
+        };
+        $action->run();
+        $this->assertTrue($action->triggered);
     }
 }
