@@ -53,7 +53,7 @@ trait ResolvesValidation
 
     protected function resolveValidation()
     {
-        if (!$this->passesValidation()) {
+        if (! $this->passesValidation()) {
             $this->failedValidation();
         }
 
