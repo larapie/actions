@@ -3,6 +3,7 @@
 namespace Larapie\Actions\Concerns;
 
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
 
 trait ResolvesValidation
