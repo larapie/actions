@@ -12,8 +12,8 @@ trait ResolvesMethodDependencies
 {
     protected function resolveAndCall($instance, $method, $extras = [])
     {
-        if (!method_exists($instance, $method)) {
-            throw new MethodDoesNotExistException("method $method not found on " . get_class($instance));
+        if (! method_exists($instance, $method)) {
+            throw new MethodDoesNotExistException("method $method not found on ".get_class($instance));
         }
 
         $parameters = $this->resolveMethodDependencies($instance, $method, $extras);
@@ -34,10 +34,10 @@ trait ResolvesMethodDependencies
 
     protected function resolveDependency(ReflectionParameter $parameter, $extras = [])
     {
-        list($key, $value) = $this->findAttributeFromParameter($parameter->name, $extras);
+        [$key, $value] = $this->findAttributeFromParameter($parameter->name, $extras);
         $class = $parameter->getClass();
 
-        if ($key && (!$class || $value instanceof $class->name)) {
+        if ($key && (! $class || $value instanceof $class->name)) {
             return $value;
         }
 
@@ -67,7 +67,7 @@ trait ResolvesMethodDependencies
 
     protected function resolveRouteBinding($instance, $value)
     {
-        if (!$model = $instance->resolveRouteBinding($value)) {
+        if (! $model = $instance->resolveRouteBinding($value)) {
             throw (new ModelNotFoundException())->setModel(get_class($instance));
         }
 

@@ -1,4 +1,4 @@
-# Laravel Actions
+# Larapie Actions
 ⚡️ Laravel components that take care of one specific task
 
 This package introduces a new way of organising the logic of your Laravel applications by focusing on the actions your application provide.
@@ -10,7 +10,7 @@ Similarly to how VueJS components regroup HTML, JavaScript and CSS together, Lar
 ## Installation
 
 ```sh
-composer require lorisleiva/laravel-actions
+composer require larapie/actions
 ```
 
 ## Table of content
