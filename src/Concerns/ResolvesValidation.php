@@ -31,7 +31,7 @@ trait ResolvesValidation
         }
 
         foreach ($this->includes() as $key => $included) {
-            if (!array_key_exists($key, $rules)) {
+            if (! array_key_exists($key, $rules)) {
                 $rules[$key] = 'required';
             }
         }
@@ -73,7 +73,7 @@ trait ResolvesValidation
 
     protected function resolveValidation()
     {
-        if (!$this->passesValidation()) {
+        if (! $this->passesValidation()) {
             $this->failedValidation();
         }
 
