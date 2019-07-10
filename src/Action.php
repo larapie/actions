@@ -13,6 +13,7 @@ abstract class Action extends Controller
     use Concerns\ResolvesMethodDependencies;
     use Concerns\ResolvesAuthorization;
     use Concerns\ResolvesValidation;
+    use Concerns\ResolveIncludes;
     use Concerns\ResolveDefaults;
     use Concerns\ResolveCasting;
     use Concerns\RunsAsController;
@@ -49,6 +50,7 @@ abstract class Action extends Controller
     {
         $this->resolveDefaults();
         $this->fill($attributes);
+        $this->resolveIncludes();
         $this->resolveBeforeHook();
         $this->resolveAuthorization();
         $this->resolveValidation();
