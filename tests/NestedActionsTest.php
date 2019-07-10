@@ -3,12 +3,20 @@
 namespace Larapie\Actions\Tests;
 
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
 use Illuminate\Validation\ValidationException;
 use Larapie\Actions\Tests\Actions\UpdateProfile;
 use Larapie\Actions\Tests\Stubs\User;
 
 class NestedActionsTest extends TestCase
 {
+
+    function setUp(): void
+    {
+        parent::setUp();
+    }
+
     /** @test */
     public function an_action_can_conditionally_delegate_to_other_actions()
     {
@@ -66,6 +74,7 @@ class NestedActionsTest extends TestCase
     /** @test */
     public function validation_errors_are_delegated()
     {
+        $this->loadLaravelMigrations();
         try {
             (new UpdateProfile())->run(['user' => new User(), 'name' => 'invalid_name']);
             $this->fail('Expected a ValidationException');

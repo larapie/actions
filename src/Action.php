@@ -5,6 +5,8 @@ namespace Larapie\Actions;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Larapie\Actions\Concerns\FailHook;
+use Larapie\Actions\Concerns\ResolveDefaults;
 use Throwable;
 
 abstract class Action extends Controller
@@ -13,6 +15,8 @@ abstract class Action extends Controller
     use Concerns\ResolvesMethodDependencies;
     use Concerns\ResolvesAuthorization;
     use Concerns\ResolvesValidation;
+    use Concerns\ResolveDefaults;
+    use Concerns\ResolveCasting;
     use Concerns\RunsAsController;
     use Concerns\SuccessHook;
     use Concerns\FailHook;
@@ -45,11 +49,12 @@ abstract class Action extends Controller
 
     public function run(array $attributes = [])
     {
+        $this->resolveDefaults();
         $this->fill($attributes);
         $this->resolveBeforeHook();
         $this->resolveAuthorization();
         $this->resolveValidation();
-
+        $this->resolveCasting();
         try {
             $value = $this->resolveAndCall($this, 'handle');
         } catch (Throwable $exception) {

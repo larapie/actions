@@ -5,6 +5,7 @@ namespace Larapie\Actions\Concerns;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
+use Larapie\Actions\Attribute;
 
 trait ResolvesValidation
 {
@@ -15,8 +16,19 @@ trait ResolvesValidation
     public function validate($rules = [], $messages = [], $customAttributes = [])
     {
         return app(ValidationFactory::class)
-             ->make($this->validationData(), $rules, $messages, $customAttributes)
-             ->validate();
+            ->make($this->validationData(), $rules, $messages, $customAttributes)
+            ->validate();
+    }
+
+    public function buildRules()
+    {
+        $rules = [];
+        foreach ($this->rules() as $key => $rule) {
+            if ($rule instanceof Attribute)
+                $rule = $rule->getRules();
+            $rules[$key] = $rule;
+        }
+        return $rules;
     }
 
     public function passesValidation()
@@ -53,7 +65,7 @@ trait ResolvesValidation
 
     protected function resolveValidation()
     {
-        if (! $this->passesValidation()) {
+        if (!$this->passesValidation()) {
             $this->failedValidation();
         }
 
@@ -90,7 +102,7 @@ trait ResolvesValidation
     protected function createDefaultValidator(ValidationFactory $factory)
     {
         return $factory->make(
-            $this->validationData(), $this->rules(),
+            $this->validationData(), $this->buildRules(),
             $this->messages(), $this->attributes()
         );
     }
@@ -98,8 +110,8 @@ trait ResolvesValidation
     protected function failedValidation()
     {
         throw (new ValidationException($this->validator))
-                    ->errorBag($this->errorBag)
-                    ->redirectTo($this->getRedirectUrl());
+            ->errorBag($this->errorBag)
+            ->redirectTo($this->getRedirectUrl());
     }
 
     protected function getRedirectUrl()
