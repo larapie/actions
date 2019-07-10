@@ -26,8 +26,9 @@ class Attribute
     {
         if (method_exists($this, 'rules')) {
             $this->data['rules'] = $this->extractRules($this->rules());
-        } else
+        } else {
             $this->data['rules'] = [];
+        }
     }
 
     protected static function make()
@@ -40,6 +41,7 @@ class Attribute
         $attribute = static::make();
         $attribute->rule('required');
         $attribute->setDefault($value);
+
         return $attribute;
     }
 
@@ -63,6 +65,7 @@ class Attribute
                 })
                 ->toArray()
         );
+
         return $attribute;
     }
 
@@ -91,17 +94,20 @@ class Attribute
                     ->toArray()
             );
         }
+
         return $this;
     }
 
     protected function extractRules($rules): array
     {
-        if (is_array($rules))
+        if (is_array($rules)) {
             return $rules;
-        elseif (is_string($rules)) {
+        } elseif (is_string($rules)) {
             return explode('|', $rules);
-        } elseif (is_object($rules))
+        } elseif (is_object($rules)) {
             return [$rules];
+        }
+
         return [];
     }
 
@@ -124,5 +130,4 @@ class Attribute
     {
         $this->data['default'] = $value;
     }
-
 }

@@ -1,12 +1,9 @@
 <?php
 
-
 namespace Larapie\Actions\Concerns;
-
 
 use Illuminate\Support\Collection;
 use Larapie\Actions\Attribute;
-use function foo\func;
 
 trait ResolveCasting
 {
@@ -14,7 +11,6 @@ trait ResolveCasting
     {
         $this->resolveAttributeCasting();
     }
-
 
     protected function resolveAttributeCasting()
     {
@@ -30,6 +26,7 @@ trait ResolveCasting
         });
 
         $test = collect($this->validated())->merge($attributes)->toArray();
+
         return $test;
     }
 }

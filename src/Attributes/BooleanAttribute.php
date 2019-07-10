@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Larapie\Actions\Attributes;
-
 
 use Larapie\Actions\Attribute;
 

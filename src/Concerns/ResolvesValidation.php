@@ -24,10 +24,12 @@ trait ResolvesValidation
     {
         $rules = [];
         foreach ($this->rules() as $key => $rule) {
-            if ($rule instanceof Attribute)
+            if ($rule instanceof Attribute) {
                 $rule = $rule->getRules();
+            }
             $rules[$key] = $rule;
         }
+
         return $rules;
     }
 
@@ -65,7 +67,7 @@ trait ResolvesValidation
 
     protected function resolveValidation()
     {
-        if (!$this->passesValidation()) {
+        if (! $this->passesValidation()) {
             $this->failedValidation();
         }
 
