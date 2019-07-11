@@ -2,8 +2,6 @@
 
 namespace Larapie\Actions\Concerns;
 
-use Larapie\Actions\Attribute;
-
 trait ResolveIncludes
 {
     public function includes()
