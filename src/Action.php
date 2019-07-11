@@ -68,7 +68,7 @@ abstract class Action extends Controller
 
     public function resolveBeforeHook()
     {
-        $method = 'as'.Str::studly($this->runningAs);
+        $method = 'as' . Str::studly($this->runningAs);
 
         if (method_exists($this, $method)) {
             return $this->resolveAndCall($this, $method);
@@ -102,5 +102,15 @@ abstract class Action extends Controller
     public function delegateTo($actionClass)
     {
         return $actionClass::createFrom($this)->runAs($this);
+    }
+
+    public static function make(array $attributes = [])
+    {
+        return new static($attributes);
+    }
+
+    public static function execute(array $attributes = [])
+    {
+        return self::make($attributes)->run();
     }
 }
