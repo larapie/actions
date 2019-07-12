@@ -3,15 +3,11 @@
 namespace Larapie\Actions\Tests;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Larapie\Actions\Tests\Actions\SimpleCalculator;
 
 class ActingAsTest extends TestCase
 {
-    protected function setUp() : void
-    {
-        parent::setUp();
-        $this->loadLaravelMigrations();
-    }
 
     /** @test */
     public function it_keeps_track_of_the_authenticated_user()
@@ -26,8 +22,8 @@ class ActingAsTest extends TestCase
     /** @test */
     public function it_returns_null_when_unauthenticated()
     {
+        Auth::logout();
         $action = new SimpleCalculator();
-
         $this->assertNull($action->user());
     }
 

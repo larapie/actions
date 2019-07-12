@@ -43,6 +43,8 @@ abstract class Action extends Controller
             return $this->runAsController($action->getRequest());
         }
 
+        $this->actingAs($action->user());
+
         return $this->run();
     }
 

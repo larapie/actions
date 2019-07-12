@@ -9,6 +9,12 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
+    protected function setUp() : void
+    {
+        parent::setUp();
+        $this->loadLaravelMigrations();
+        $this->actingAs($userA = $this->createUser());
+    }
     protected function getPackageProviders($app)
     {
         return ['Larapie\Actions\LarapieActionServiceProvider'];

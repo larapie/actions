@@ -91,12 +91,12 @@ class ResolvesMethodDependenciesTest extends TestCase
     public function it_resolves_type_hinted_models_using_route_model_binding()
     {
         $this->loadLaravelMigrations();
-        $this->createUser([
+        $user = $this->createUser([
             'name' => 'John Doe',
             'email' => 'john.doe@gmail.com',
         ]);
 
-        $action = new class(['user' => 1]) extends Action
+        $action = new class(['user' => $user->id]) extends Action
         {
             public function handle(User $user)
             {
@@ -165,7 +165,7 @@ class ResolvesMethodDependenciesTest extends TestCase
             }
         };
 
-        $request = $this->createRequest('GET', '/action/{user}', '/action/1', [
+        $request = $this->createRequest('GET', '/action/{user}', '/action/'.$user->id, [
             'user' => 'User provided as request payload.',
         ]);
 

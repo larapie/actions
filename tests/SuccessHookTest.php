@@ -12,7 +12,9 @@ class SuccessHookTest extends TestCase
     /** @test */
     public function it_gets_marked_as_completed()
     {
-        $action = new class() extends UpdateProfile {
+        $action = new class([
+            "user" => $this->createUser()
+        ]) extends UpdateProfile {
             public $completed = false;
 
             public function handle()
@@ -38,7 +40,9 @@ class SuccessHookTest extends TestCase
     /** @test */
     public function it_resolves_first_non_typed_parameter()
     {
-        $action = new class() extends UpdateProfile {
+        $action = new class([
+            "user" => $this->createUser()
+        ]) extends UpdateProfile {
             public $result;
 
             protected function onSuccess($result)
@@ -55,7 +59,9 @@ class SuccessHookTest extends TestCase
     /** @test */
     public function it_resolves_first_correctly_typed_parameter()
     {
-        $action = new class() extends UpdateProfile {
+        $action = new class([
+            "user" => $this->createUser()
+        ]) extends UpdateProfile {
             public $result;
 
             protected function onSuccess(string $result)
