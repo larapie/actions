@@ -3,6 +3,7 @@
 namespace Larapie\Actions\Concerns;
 
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
 use Larapie\Actions\Attribute;
@@ -11,6 +12,9 @@ trait ResolvesValidation
 {
     protected $errorBag = 'default';
 
+    /**
+     * @var Validator
+     */
     protected $validator;
 
     public function validate($rules = [], $messages = [], $customAttributes = [])
@@ -31,7 +35,7 @@ trait ResolvesValidation
         }
 
         foreach ($this->includes() as $key => $included) {
-            if (! array_key_exists($key, $rules)) {
+            if (!array_key_exists($key, $rules)) {
                 $rules[$key] = 'required';
             }
         }
@@ -51,9 +55,43 @@ trait ResolvesValidation
         return $this;
     }
 
-    public function validated()
+    public function validated(bool $recursive = true)
     {
-        return $this->validator->validated();
+        return $recursive ? $this->filterRulesRecursively($this->validator->validated()) : $this->validator->validated();
+    }
+
+    protected function filterRulesRecursively(array $data)
+    {
+        //Dot notation makes it possible to parse nested values without recursion
+        $original = Arr::dot($data);
+
+        $filtered = [];
+        $rules = collect($this->buildRules());
+        $keys = $rules->keys();
+        $rules->each(function ($rules, $key) use ($original, $keys, &$filtered) {
+            //Allow for array or pipe-delimited rule-sets
+            if (is_string($rules)) {
+                $rules = explode('|', $rules);
+            }
+            //In case a rule requires an element to be an array, look for nested rules
+            $nestedRules = $keys->filter(function ($otherKey) use ($key) {
+                return (strpos($otherKey, "$key.") === 0);
+            });
+            //If the input must be an array, default missing nested rules to a wildcard
+            if (in_array('array', $rules) && $nestedRules->isEmpty()) {
+                $key .= ".*";
+            }
+
+            foreach ($original as $dotIndex => $element) {
+                //fnmatch respects wildcard asterisks
+                if (fnmatch($key, $dotIndex)) {
+                    //array_set respects dot-notation, building out a normal array
+                    array_set($filtered, $dotIndex, $element);
+                }
+            }
+        });
+
+        return $filtered;
     }
 
     public function rules()
@@ -73,7 +111,7 @@ trait ResolvesValidation
 
     protected function resolveValidation()
     {
-        if (! $this->passesValidation()) {
+        if (!$this->passesValidation()) {
             $this->failedValidation();
         }
 
