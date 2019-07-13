@@ -15,17 +15,18 @@ class ResolvesValidationTest extends TestCase
     {
         $attributes = [
             'operation' => 'substraction',
-            'left'      => 5,
-            'right'     => 2,
+            'left' => 5,
+            'right' => 2,
         ];
 
-        $action = new class($attributes) extends SimpleCalculator {
+        $action = new class($attributes) extends SimpleCalculator
+        {
             public function rules()
             {
                 return [
                     'operation' => 'required|in:addition,substraction',
-                    'left'      => 'required|integer',
-                    'right'     => 'required|integer',
+                    'left' => 'required|integer',
+                    'right' => 'required|integer',
                 ];
             }
         };
@@ -39,15 +40,16 @@ class ResolvesValidationTest extends TestCase
     {
         $attributes = [
             'operation' => 'addition',
-            'left'      => 5,
-            'right'     => 2,
+            'left' => 5,
+            'right' => 2,
         ];
 
-        $action = new class($attributes) extends SimpleCalculator {
+        $action = new class($attributes) extends SimpleCalculator
+        {
             public function rules()
             {
                 return [
-                    'left'  => 'required|integer',
+                    'left' => 'required|integer',
                     'right' => 'required|integer',
                 ];
             }
@@ -60,20 +62,89 @@ class ResolvesValidationTest extends TestCase
     }
 
     /** @test */
+    public function it_filters_data_from_rules_recursively()
+    {
+        $attributes = [
+            'array' => [
+                [
+                    'field_1' => 5,
+                    'field_2' => 2,
+                    'field_3' => 1
+                ]
+            ]
+        ];
+
+        $action = new class($attributes) extends Action
+        {
+            public function rules()
+            {
+                return [
+                    'array' => 'required|array',
+                    'array.*.field_1' => 'required|integer',
+                    'array.*.field_2' => 'required|integer',
+                ];
+            }
+
+            public function handle()
+            {
+                return $this->validated(true);
+            }
+        };
+        $data = $array = $action->run();
+        $this->assertArrayHasKey('array', $data);
+        $this->assertArrayNotHasKey('field_3', $data['array'][0]);
+    }
+
+    /** @test */
+    public function it_does_not_filters_data_from_rules_recursively()
+    {
+        $attributes = [
+            'array' => [
+                [
+                    'field_1' => 5,
+                    'field_2' => 2,
+                    'field_3' => 1
+                ]
+            ]
+        ];
+
+        $action = new class($attributes) extends Action
+        {
+            public function rules()
+            {
+                return [
+                    'array' => 'required|array',
+                    'array.*.field_1' => 'required|integer',
+                    'array.*.field_2' => 'required|integer',
+                ];
+            }
+
+            public function handle()
+            {
+                return $this->validated(false);
+            }
+        };
+        $data = $array = $action->run();
+        $this->assertArrayHasKey('array', $data);
+        $this->assertArrayHasKey('field_3', $data['array'][0]);
+    }
+
+    /** @test */
     public function it_throws_a_validation_exception_when_validator_fails()
     {
         $attributes = [
             'operation' => 'multiplication',
-            'left'      => 'five',
+            'left' => 'five',
         ];
 
-        $action = new class($attributes) extends SimpleCalculator {
+        $action = new class($attributes) extends SimpleCalculator
+        {
             public function rules()
             {
                 return [
                     'operation' => 'required|in:addition,substraction',
-                    'left'      => 'required|integer',
-                    'right'     => 'required|integer',
+                    'left' => 'required|integer',
+                    'right' => 'required|integer',
                 ];
             }
         };
@@ -85,8 +156,8 @@ class ResolvesValidationTest extends TestCase
         } catch (ValidationException $e) {
             $this->assertEquals([
                 'operation' => ['The selected operation is invalid.'],
-                'left'      => ['The left must be an integer.'],
-                'right'     => ['The right field is required.'],
+                'left' => ['The left must be an integer.'],
+                'right' => ['The right field is required.'],
             ], $e->errors());
         }
     }
@@ -96,11 +167,12 @@ class ResolvesValidationTest extends TestCase
     {
         $attributes = [
             'operation' => 'substraction',
-            'left'      => 5,
-            'right'     => 10,
+            'left' => 5,
+            'right' => 10,
         ];
 
-        $action = new class($attributes) extends SimpleCalculator {
+        $action = new class($attributes) extends SimpleCalculator
+        {
             public function withValidator($validator)
             {
                 $validator->after(function ($validator) {
@@ -125,7 +197,8 @@ class ResolvesValidationTest extends TestCase
     /** @test */
     public function it_can_create_its_own_validator_instance()
     {
-        $action = new class(['operation' => 'valid']) extends Action {
+        $action = new class(['operation' => 'valid']) extends Action
+        {
             public function validator($factory)
             {
                 return $factory->make($this->all(), ['operation' => 'in:valid']);
@@ -138,7 +211,8 @@ class ResolvesValidationTest extends TestCase
     /** @test */
     public function it_can_validate_data_directly_in_the_handle_method()
     {
-        $action = new class(['operation' => 'valid']) extends Action {
+        $action = new class(['operation' => 'valid']) extends Action
+        {
             public function handle()
             {
                 $first = $this->validate(['operation' => 'in:valid']);
@@ -173,7 +247,7 @@ class ResolvesValidationTest extends TestCase
 
             protected function afterValidator(Validator $validator)
             {
-                $this->triggered= true;
+                $this->triggered = true;
             }
         };
         $action->run();
