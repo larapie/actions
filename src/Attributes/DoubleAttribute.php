@@ -14,11 +14,11 @@ class DoubleAttribute extends Attribute
 
     public function cast($value)
     {
-        return (double) $value;
+        return (float) $value;
     }
 
     public function factory(Generator $faker)
     {
-        return $faker->randomFloat(2,0,1000);
+        return $faker->randomFloat(2, 0, 1000);
     }
 }
