@@ -35,7 +35,7 @@ trait ResolvesValidation
         }
 
         foreach ($this->includes() as $key => $included) {
-            if (!array_key_exists($key, $rules)) {
+            if (! array_key_exists($key, $rules)) {
                 $rules[$key] = 'required';
             }
         }
@@ -75,11 +75,11 @@ trait ResolvesValidation
             }
             //In case a rule requires an element to be an array, look for nested rules
             $nestedRules = $keys->filter(function ($otherKey) use ($key) {
-                return (strpos($otherKey, "$key.") === 0);
+                return strpos($otherKey, "$key.") === 0;
             });
             //If the input must be an array, default missing nested rules to a wildcard
             if (in_array('array', $rules) && $nestedRules->isEmpty()) {
-                $key .= ".*";
+                $key .= '.*';
             }
 
             foreach ($original as $dotIndex => $element) {
@@ -111,7 +111,7 @@ trait ResolvesValidation
 
     protected function resolveValidation()
     {
-        if (!$this->passesValidation()) {
+        if (! $this->passesValidation()) {
             $this->failedValidation();
         }
 
