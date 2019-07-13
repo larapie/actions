@@ -19,6 +19,6 @@ class IntegerAttribute extends Attribute
 
     public function factory(Generator $faker)
     {
-        return $faker->numberBetween(0,1000);
+        return $faker->numberBetween(0, 1000);
     }
 }

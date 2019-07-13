@@ -69,7 +69,6 @@ class Attribute
         return $attribute;
     }
 
-
     /**
      * @return mixed
      */
