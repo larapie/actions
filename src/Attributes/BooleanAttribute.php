@@ -2,6 +2,7 @@
 
 namespace Larapie\Actions\Attributes;
 
+use Faker\Generator;
 use Larapie\Actions\Attribute;
 
 class BooleanAttribute extends Attribute
@@ -14,5 +15,10 @@ class BooleanAttribute extends Attribute
     public function cast($value)
     {
         return (bool) $value;
+    }
+
+    public function factory(Generator $faker)
+    {
+        return $faker->boolean;
     }
 }

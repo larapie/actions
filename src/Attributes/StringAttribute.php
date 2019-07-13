@@ -2,6 +2,7 @@
 
 namespace Larapie\Actions\Attributes;
 
+use Faker\Generator;
 use Larapie\Actions\Attribute;
 
 class StringAttribute extends Attribute
@@ -14,5 +15,10 @@ class StringAttribute extends Attribute
     public function cast($value)
     {
         return (string) $value;
+    }
+
+    public function factory(Generator $faker)
+    {
+        return $faker->text;
     }
 }

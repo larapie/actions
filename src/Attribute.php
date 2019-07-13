@@ -69,6 +69,10 @@ class Attribute
         return $attribute;
     }
 
+
+    /**
+     * @return mixed
+     */
     public static function fake()
     {
         return static::make()->factory(Factory::create());

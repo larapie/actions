@@ -2,6 +2,7 @@
 
 namespace Larapie\Actions\Attributes;
 
+use Faker\Generator;
 use Larapie\Actions\Attribute;
 
 class IntegerAttribute extends Attribute
@@ -14,5 +15,10 @@ class IntegerAttribute extends Attribute
     public function cast($value)
     {
         return (int) $value;
+    }
+
+    public function factory(Generator $faker)
+    {
+        return $faker->numberBetween(0,1000);
     }
 }
