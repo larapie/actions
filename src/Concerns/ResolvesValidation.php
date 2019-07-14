@@ -24,7 +24,8 @@ trait ResolvesValidation
             ->validate();
     }
 
-    public function parentRules(){
+    public function parentRules()
+    {
         return [];
     }
 
