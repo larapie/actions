@@ -24,10 +24,14 @@ trait ResolvesValidation
             ->validate();
     }
 
+    public function parentRules(){
+        return [];
+    }
+
     public function buildRules()
     {
         $rules = [];
-        foreach ($this->rules() as $key => $rule) {
+        foreach (array_merge($this->parentRules(), $this->rules()) as $key => $rule) {
             if ($rule instanceof Attribute) {
                 $rule = $rule->getRules();
             }
