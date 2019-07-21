@@ -7,14 +7,11 @@ use Larapie\Actions\Attribute;
 
 class DoubleAttribute extends Attribute
 {
+    protected $cast = "double";
+
     protected function rules()
     {
         return 'numeric';
-    }
-
-    public function cast($value)
-    {
-        return (float) $value;
     }
 
     public function factory(Generator $faker)

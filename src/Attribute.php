@@ -9,6 +9,8 @@ class Attribute
 {
     protected $data = [];
 
+    protected $cast = null;
+
     /**
      * Attribute constructor.
      */
@@ -50,9 +52,12 @@ class Attribute
         return static::make()->rule('required');
     }
 
-    public function cast($value)
+    public function cast($cast)
     {
-        return $value;
+        if (is_callable($cast) || is_string($cast))
+            $this->cast = $cast;
+
+        return $this;
     }
 
     public static function optional()
@@ -117,6 +122,14 @@ class Attribute
     public function getRules()
     {
         return $this->data['rules'];
+    }
+
+    public function getPreProcessing(){
+        return $this->preProcess;
+    }
+
+    public function getCast(){
+        return $this->cast;
     }
 
     public function hasDefault()

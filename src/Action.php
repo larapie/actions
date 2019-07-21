@@ -56,7 +56,6 @@ abstract class Action extends Controller
         $this->resolveBeforeHook();
         $this->resolveAuthorization();
         $this->resolveValidation();
-        $this->resolveCasting();
         try {
             $value = $this->resolveAndCall($this, 'handle');
         } catch (Throwable $exception) {

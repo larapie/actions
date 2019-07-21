@@ -5,17 +5,17 @@ namespace Larapie\Actions\Attributes;
 use Faker\Generator;
 use Larapie\Actions\Attribute;
 
-class BooleanAttribute extends Attribute
+class ObjectAttribute extends Attribute
 {
-    protected $cast = "bool";
+    protected $cast = "object";
 
     protected function rules()
     {
-        return 'bool';
+        return 'object';
     }
 
     public function factory(Generator $faker)
     {
-        return $faker->boolean;
+        return new \stdClass();
     }
 }

@@ -7,26 +7,55 @@ use Larapie\Actions\Attribute;
 
 trait ResolveCasting
 {
-    protected function resolveCasting()
+    protected function resolveAttributeCasting(array $data)
     {
-        $this->resolveAttributeCasting();
+        $attributes = (new Collection($this->rules()))
+            ->filter(function ($rule) {
+                return $rule instanceof Attribute;
+            });
+
+        return $attributes->intersectByKeys($data)->map(function (Attribute $attribute, $key) use ($data) {
+            return $this->processCasting($attribute, $data[$key]);
+        })->toArray();
     }
 
-    protected function resolveAttributeCasting()
+    private function processCasting(Attribute $attribute, $value)
     {
-        $attributes = new Collection($this->rules());
-        $attributes = (new Collection($this->rules()))->filter(function ($rule) {
-            return $rule instanceof Attribute;
-        });
+        if (($castFunction = $attribute->getCast()) !== null && is_callable($castFunction))
+            return $castFunction($value);
 
-        $data = $this->validated();
+        if ((($type = $attribute->getCast()) !== null && is_string($type)) ||
+            (is_string($type = $attribute->cast(null)) && in_array(strtolower($type), ["bool", "boolean", "string", "double", "float", "int", "integer", "array", "object"]))) {
+            return $this->castFromString($type, $value);
+        }
 
-        $castedValues = $attributes->intersectByKeys($this->validated())->map(function (Attribute $value, $key) {
-            return $value->cast($this->validated()[$key]);
-        });
+        if (!($attribute->cast(null) instanceof Attribute))
+            return $attribute->cast($value);
 
-        $test = collect($this->validated())->merge($attributes)->toArray();
+        return $value;
+    }
 
-        return $test;
+    private function castFromString(string $type, $value)
+    {
+        switch (strtolower($type)) {
+            case "boolean":
+            case "bool" :
+                return (bool)$value;
+            case "string":
+                return (string)$value;
+            case "double":
+                return (double)$value;
+            case "integer":
+            case "int":
+                return (int)$value;
+            case "float":
+                return (float)$value;
+            case "array":
+                return (array)$value;
+            case "object":
+                return (object)$value;
+            default:
+                throw new \RuntimeException("cast type not supported");
+        }
     }
 }

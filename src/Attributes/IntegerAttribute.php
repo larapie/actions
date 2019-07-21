@@ -7,14 +7,11 @@ use Larapie\Actions\Attribute;
 
 class IntegerAttribute extends Attribute
 {
+    protected $cast = "int";
+
     protected function rules()
     {
         return 'integer';
-    }
-
-    public function cast($value)
-    {
-        return (int) $value;
     }
 
     public function factory(Generator $faker)

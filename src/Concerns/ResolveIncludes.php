@@ -16,8 +16,6 @@ trait ResolveIncludes
 
     protected function resolveAttributeIncludes()
     {
-        $this->fill(
-            array_merge($this->attributes, $this->includes())
-        );
+        $this->fill($this->includes());
     }
 }

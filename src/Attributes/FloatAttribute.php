@@ -5,17 +5,17 @@ namespace Larapie\Actions\Attributes;
 use Faker\Generator;
 use Larapie\Actions\Attribute;
 
-class BooleanAttribute extends Attribute
+class FloatAttribute extends Attribute
 {
-    protected $cast = "bool";
+    protected $cast = "float";
 
     protected function rules()
     {
-        return 'bool';
+        return 'numeric';
     }
 
     public function factory(Generator $faker)
     {
-        return $faker->boolean;
+        return $faker->randomFloat(2, 0, 1000);
     }
 }

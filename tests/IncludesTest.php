@@ -5,6 +5,7 @@ namespace Larapie\Actions\Tests;
 use Illuminate\Validation\Rules\Dimensions;
 use Larapie\Actions\Action;
 use Larapie\Actions\Attribute;
+use Larapie\Actions\Attributes\StringAttribute;
 use Larapie\Actions\Tests\Attributes\RequiredAttribute;
 
 class IncludesTest extends TestCase
@@ -55,6 +56,6 @@ class IncludesTest extends TestCase
             }
         };
 
-        $this->assertEquals('included', $action->run());
+        $this->assertEquals('included', $action->run(["name" => 'notincluded']));
     }
 }

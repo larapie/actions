@@ -40,7 +40,7 @@ trait ResolvesValidation
         }
 
         foreach ($this->includes() as $key => $included) {
-            if (! array_key_exists($key, $rules)) {
+            if (!array_key_exists($key, $rules)) {
                 $rules[$key] = 'required';
             }
         }
@@ -62,7 +62,8 @@ trait ResolvesValidation
 
     public function validated(bool $recursive = true)
     {
-        return $recursive ? $this->filterRulesRecursively($this->validator->validated()) : $this->validator->validated();
+        $data = $this->resolveAttributeCasting($validated = $this->validator->validated());
+        return array_merge($recursive ? $this->filterRulesRecursively(array_merge($validated, $data)) : array_merge($validated, $data), $this->includes());
     }
 
     protected function filterRulesRecursively(array $data)
@@ -116,7 +117,7 @@ trait ResolvesValidation
 
     protected function resolveValidation()
     {
-        if (! $this->passesValidation()) {
+        if (!$this->passesValidation()) {
             $this->failedValidation();
         }
 
