@@ -7,7 +7,7 @@ use Larapie\Actions\Attribute;
 
 class DoubleAttribute extends Attribute
 {
-    protected $cast = "double";
+    protected $cast = 'double';
 
     protected function rules()
     {

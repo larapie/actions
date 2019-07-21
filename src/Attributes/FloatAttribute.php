@@ -7,7 +7,7 @@ use Larapie\Actions\Attribute;
 
 class FloatAttribute extends Attribute
 {
-    protected $cast = "float";
+    protected $cast = 'float';
 
     protected function rules()
     {

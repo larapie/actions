@@ -7,7 +7,7 @@ use Larapie\Actions\Attribute;
 
 class BooleanAttribute extends Attribute
 {
-    protected $cast = "bool";
+    protected $cast = 'bool';
 
     protected function rules()
     {

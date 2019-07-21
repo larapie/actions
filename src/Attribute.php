@@ -54,8 +54,9 @@ class Attribute
 
     public function cast($cast)
     {
-        if (is_callable($cast) || is_string($cast))
+        if (is_callable($cast) || is_string($cast)) {
             $this->cast = $cast;
+        }
 
         return $this;
     }
@@ -124,11 +125,13 @@ class Attribute
         return $this->data['rules'];
     }
 
-    public function getPreProcessing(){
+    public function getPreProcessing()
+    {
         return $this->preProcess;
     }
 
-    public function getCast(){
+    public function getCast()
+    {
         return $this->cast;
     }
 
