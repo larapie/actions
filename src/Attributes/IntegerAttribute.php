@@ -7,7 +7,7 @@ use Larapie\Actions\Attribute;
 
 class IntegerAttribute extends Attribute
 {
-    protected $cast = "int";
+    protected $cast = 'int';
 
     protected function rules()
     {

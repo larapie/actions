@@ -21,16 +21,18 @@ trait ResolveCasting
 
     private function processCasting(Attribute $attribute, $value)
     {
-        if (($castFunction = $attribute->getCast()) !== null && is_callable($castFunction))
+        if (($castFunction = $attribute->getCast()) !== null && is_callable($castFunction)) {
             return $castFunction($value);
+        }
 
         if ((($type = $attribute->getCast()) !== null && is_string($type)) ||
-            (is_string($type = $attribute->cast(null)) && in_array(strtolower($type), ["bool", "boolean", "string", "double", "float", "int", "integer", "array", "object"]))) {
+            (is_string($type = $attribute->cast(null)) && in_array(strtolower($type), ['bool', 'boolean', 'string', 'double', 'float', 'int', 'integer', 'array', 'object']))) {
             return $this->castFromString($type, $value);
         }
 
-        if (!($attribute->cast(null) instanceof Attribute))
+        if (! ($attribute->cast(null) instanceof Attribute)) {
             return $attribute->cast($value);
+        }
 
         return $value;
     }
@@ -38,24 +40,24 @@ trait ResolveCasting
     private function castFromString(string $type, $value)
     {
         switch (strtolower($type)) {
-            case "boolean":
-            case "bool" :
-                return (bool)$value;
-            case "string":
-                return (string)$value;
-            case "double":
-                return (double)$value;
-            case "integer":
-            case "int":
-                return (int)$value;
-            case "float":
-                return (float)$value;
-            case "array":
-                return (array)$value;
-            case "object":
-                return (object)$value;
+            case 'boolean':
+            case 'bool':
+                return (bool) $value;
+            case 'string':
+                return (string) $value;
+            case 'double':
+                return (float) $value;
+            case 'integer':
+            case 'int':
+                return (int) $value;
+            case 'float':
+                return (float) $value;
+            case 'array':
+                return (array) $value;
+            case 'object':
+                return (object) $value;
             default:
-                throw new \RuntimeException("cast type not supported");
+                throw new \RuntimeException('cast type not supported');
         }
     }
 }
