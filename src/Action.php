@@ -60,8 +60,9 @@ abstract class Action extends Controller
         $this->resolveIncludes();
         $this->resolveBeforeHook();
 
-        if ($authorization)
+        if ($authorization) {
             $this->resolveAuthorization();
+        }
 
         $this->resolveValidation();
         try {
@@ -77,7 +78,7 @@ abstract class Action extends Controller
 
     public function resolveBeforeHook()
     {
-        $method = 'as' . Str::studly($this->runningAs);
+        $method = 'as'.Str::studly($this->runningAs);
 
         if (method_exists($this, $method)) {
             return $this->resolveAndCall($this, $method);
