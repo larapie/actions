@@ -107,6 +107,12 @@ class Attribute
         return $this;
     }
 
+    public function nullable()
+    {
+        $this->rule('nullable');
+        return $this;
+    }
+
     protected function extractRules($rules): array
     {
         if (is_array($rules)) {
