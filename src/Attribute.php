@@ -11,9 +11,6 @@ class Attribute
 
     protected $cast = null;
 
-    /**
-     * Attribute constructor.
-     */
     final public function __construct()
     {
         $this->boot();
@@ -41,15 +38,19 @@ class Attribute
     public static function default($value)
     {
         $attribute = static::make();
-        $attribute->rule('required');
         $attribute->setDefault($value);
-
         return $attribute;
     }
 
     public static function required()
     {
-        return static::make()->rule('required');
+        return static::make()->require();
+    }
+
+    public function require()
+    {
+        $this->rule('required');
+        return $this;
     }
 
     public function cast($cast)
@@ -64,6 +65,7 @@ class Attribute
     public static function optional()
     {
         $attribute = static::make();
+
         $attribute->setRules(
             collect($attribute->getRules())
                 ->reject(function ($value) {
@@ -75,9 +77,6 @@ class Attribute
         return $attribute;
     }
 
-    /**
-     * @return mixed
-     */
     public static function fake()
     {
         return static::make()->factory(Factory::create());
@@ -85,7 +84,7 @@ class Attribute
 
     public function factory(Generator $faker)
     {
-        throw new \RuntimeException('Faking this attribute is not supported. Is the factory method implemented?');
+        throw new \RuntimeException('The fake method for this attribute is not implemented.');
     }
 
     protected function setRules(array $rules)
@@ -95,14 +94,14 @@ class Attribute
 
     public function rule(...$rules)
     {
-        foreach ($rules as $rule) {
+        collect($rules)->each(function ($rule) {
             $this->setRules(
                 collect($this->extractRules($rule))
                     ->flatten()
                     ->merge($this->data['rules'])
                     ->toArray()
             );
-        }
+        });
 
         return $this;
     }
@@ -129,11 +128,6 @@ class Attribute
     public function getRules()
     {
         return $this->data['rules'];
-    }
-
-    public function getPreProcessing()
-    {
-        return $this->preProcess;
     }
 
     public function getCast()
