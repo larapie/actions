@@ -109,6 +109,7 @@ class Attribute
     public function nullable()
     {
         $this->rule('nullable');
+
         return $this;
     }
 
