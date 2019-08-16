@@ -101,6 +101,7 @@ class Attribute
                 collect($this->extractRules($rule))
                     ->flatten()
                     ->merge($this->data['rules'])
+                    ->unique()
                     ->toArray()
             );
         });
@@ -161,5 +162,10 @@ class Attribute
     protected function setDefault($value)
     {
         $this->data['default'] = $value;
+    }
+
+    public function __toString()
+    {
+        return implode('|', $this->getRules());
     }
 }
