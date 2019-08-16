@@ -9,18 +9,20 @@ trait ResolveCasting
 {
     protected function resolveAttributeCasting(array $data)
     {
-        $attributes = (new Collection($this->rules()))
+        return collect($this->rules())
             ->filter(function ($rule) {
                 return $rule instanceof Attribute;
-            });
-
-        return $attributes->intersectByKeys($data)->map(function (Attribute $attribute, $key) use ($data) {
-            return $this->processCasting($attribute, $data[$key]);
-        })->toArray();
+            })
+            ->intersectByKeys($data)->map(function (Attribute $attribute, $key) use ($data) {
+                return $this->processCasting($attribute, $data[$key]);
+            })->toArray();
     }
 
     private function processCasting(Attribute $attribute, $value)
     {
+        if ($attribute->isNullable() && $value === null)
+            return $value;
+
         if (($castFunction = $attribute->getCast()) !== null && is_callable($castFunction)) {
             return $castFunction($value);
         }
@@ -30,7 +32,7 @@ trait ResolveCasting
             return $this->castFromString($type, $value);
         }
 
-        if (! ($attribute->cast(null) instanceof Attribute)) {
+        if (!($attribute->cast(null) instanceof Attribute)) {
             return $attribute->cast($value);
         }
 
@@ -42,20 +44,20 @@ trait ResolveCasting
         switch (strtolower($type)) {
             case 'boolean':
             case 'bool':
-                return (bool) $value;
+                return (bool)$value;
             case 'string':
-                return (string) $value;
+                return (string)$value;
             case 'double':
-                return (float) $value;
+                return (float)$value;
             case 'integer':
             case 'int':
-                return (int) $value;
+                return (int)$value;
             case 'float':
-                return (float) $value;
+                return (float)$value;
             case 'array':
-                return (array) $value;
+                return (array)$value;
             case 'object':
-                return (object) $value;
+                return (object)$value;
             default:
                 throw new \RuntimeException('cast type not supported');
         }

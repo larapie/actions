@@ -4,6 +4,7 @@ namespace Larapie\Actions;
 
 use Faker\Factory;
 use Faker\Generator;
+use Illuminate\Support\Str;
 
 class Attribute
 {
@@ -111,6 +112,16 @@ class Attribute
         $this->rule('nullable');
 
         return $this;
+    }
+
+    public function isNullable(): bool
+    {
+        return $this->hasRule('nullable');
+    }
+
+    public function hasRule(string $rule): bool
+    {
+        return in_array($rule, $this->getRules());
     }
 
     protected function extractRules($rules): array
