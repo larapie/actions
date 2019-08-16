@@ -40,6 +40,7 @@ class Attribute
     {
         $attribute = static::make();
         $attribute->setDefault($value);
+
         return $attribute;
     }
 
@@ -51,6 +52,7 @@ class Attribute
     public function require()
     {
         $this->rule('required');
+
         return $this;
     }
 
