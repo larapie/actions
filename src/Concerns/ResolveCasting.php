@@ -2,7 +2,6 @@
 
 namespace Larapie\Actions\Concerns;
 
-use Illuminate\Support\Collection;
 use Larapie\Actions\Attribute;
 
 trait ResolveCasting
@@ -20,8 +19,9 @@ trait ResolveCasting
 
     private function processCasting(Attribute $attribute, $value)
     {
-        if ($attribute->isNullable() && $value === null)
+        if ($attribute->isNullable() && $value === null) {
             return $value;
+        }
 
         if (($castFunction = $attribute->getCast()) !== null && is_callable($castFunction)) {
             return $castFunction($value);
@@ -32,7 +32,7 @@ trait ResolveCasting
             return $this->castFromString($type, $value);
         }
 
-        if (!($attribute->cast(null) instanceof Attribute)) {
+        if (! ($attribute->cast(null) instanceof Attribute)) {
             return $attribute->cast($value);
         }
 
@@ -44,20 +44,20 @@ trait ResolveCasting
         switch (strtolower($type)) {
             case 'boolean':
             case 'bool':
-                return (bool)$value;
+                return (bool) $value;
             case 'string':
-                return (string)$value;
+                return (string) $value;
             case 'double':
-                return (float)$value;
+                return (float) $value;
             case 'integer':
             case 'int':
-                return (int)$value;
+                return (int) $value;
             case 'float':
-                return (float)$value;
+                return (float) $value;
             case 'array':
-                return (array)$value;
+                return (array) $value;
             case 'object':
-                return (object)$value;
+                return (object) $value;
             default:
                 throw new \RuntimeException('cast type not supported');
         }

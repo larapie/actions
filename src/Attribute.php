@@ -4,7 +4,6 @@ namespace Larapie\Actions;
 
 use Faker\Factory;
 use Faker\Generator;
-use Illuminate\Support\Str;
 
 class Attribute
 {
