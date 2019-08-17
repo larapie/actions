@@ -50,7 +50,7 @@ abstract class Action extends Controller
 
     public function runUnauthorized(array $attributes = [])
     {
-       return $this->run($attributes, false);
+        return $this->run($attributes, false);
     }
 
     public function run(array $attributes = [], $authorization = true)
