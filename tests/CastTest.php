@@ -19,10 +19,10 @@ class CastTest extends TestCase
             {
                 return [
                     "bool_1" => Attribute::required()->cast('bool'),
-                    "bool_2" => StringAttribute::required()
+                    "bool_2" => Attribute::required()
                         ->cast(function ($value) {
                             return (bool)$value;
-                        }),
+                        })->rule('boolean'),
                     "bool_3" => BooleanAttribute::required(),
                     "bool_4" => BooleanAttribute::default(true),
                 ];

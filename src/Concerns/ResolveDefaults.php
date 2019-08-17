@@ -13,15 +13,12 @@ trait ResolveDefaults
 
     protected function resolveDefaults()
     {
-        $this->resolveClassDefaults();
-        $this->resolveAttributeDefaults();
+        return array_merge($this->resolveClassDefaults(), $this->resolveAttributeDefaults());
     }
 
     protected function resolveClassDefaults()
     {
-        $this->fill(
-            array_merge($this->default(), $this->attributes)
-        );
+        return $this->default();
     }
 
     protected function resolveAttributeDefaults()
@@ -35,8 +32,6 @@ trait ResolveDefaults
             })
             ->toArray();
 
-        $this->fill(
-            array_merge($defaults, $this->attributes)
-        );
+        return $defaults;
     }
 }

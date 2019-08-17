@@ -62,9 +62,9 @@ trait ResolvesValidation
 
     public function validated(bool $recursive = true)
     {
-        $data = $this->resolveAttributeCasting($validated = $this->validator->validated());
+        $data = $this->validator->validated();
 
-        return array_merge($recursive ? $this->filterRulesRecursively(array_merge($validated, $data)) : array_merge($validated, $data), $this->includes());
+        return array_merge($recursive ? $this->filterRulesRecursively($data) : $data, $this->includes());
     }
 
     protected function filterRulesRecursively(array $data)

@@ -17,7 +17,11 @@ trait HasAttributes
 
     public function fill(array $attributes)
     {
-        $this->attributes = array_merge($this->attributes, $attributes);
+        $attributes = array_merge($attributes,$this->resolveAttributeCasting($attributes));
+
+        $attributes = array_merge($this->attributes, $attributes);
+
+        $this->attributes = array_merge($this->resolveDefaults(), $attributes);
 
         return $this;
     }
