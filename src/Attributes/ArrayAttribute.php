@@ -7,7 +7,7 @@ use Larapie\Actions\Attribute;
 
 class ArrayAttribute extends Attribute
 {
-    protected $cast = 'object';
+    protected $cast = 'array';
 
     protected function rules()
     {
