@@ -93,7 +93,7 @@ trait ResolvesValidation
                 //fnmatch respects wildcard asterisks
                 if (fnmatch($key, $dotIndex)) {
                     //array_set respects dot-notation, building out a normal array
-                    array_set($filtered, $dotIndex, $element);
+                    Arr::set($filtered, $dotIndex, $element);
                 }
             }
         });
