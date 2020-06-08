@@ -14,6 +14,7 @@ matrix:
   include:
     - php: '7.2'
     - php: '7.3'
+    - php: '7.4'
 
 
 
@@ -26,10 +27,10 @@ install:
 - composer install
 
 before_script:
-  - travis_retry composer self-update
-  - travis_retry composer install --prefer-source --no-interaction
-  - if [ "$LARAVEL_VERSION" != "" ]; then composer require --dev "illuminate/support:${LARAVEL_VERSION}" --no-update; fi;
-  - composer update
+- travis_retry composer self-update
+- travis_retry composer install --prefer-source --no-interaction
+- if [ "$LARAVEL_VERSION" != "" ]; then composer require --dev "illuminate/support:${LARAVEL_VERSION}" --no-update; fi;
+- composer update
 
 script:
 - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then vendor/bin/phpunit --coverage-clover=coverage.clover; else vendor/bin/phpunit; fi
