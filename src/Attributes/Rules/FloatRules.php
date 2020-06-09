@@ -35,4 +35,9 @@ trait FloatRules
     {
         return $this->rule("gte:$value");
     }
+
+    public function size(float $size)
+    {
+        return $this->rule("size:$size");
+    }
 }

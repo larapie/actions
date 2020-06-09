@@ -134,14 +134,6 @@ class Attribute
         return $this;
     }
 
-    /**
-     * @return static
-     */
-    public function nullable()
-    {
-        return $this->rule('nullable');
-    }
-
     public function isNullable(): bool
     {
         return $this->hasRule('nullable');

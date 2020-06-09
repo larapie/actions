@@ -15,4 +15,9 @@ trait IntegerRules
     {
         return $this->rule("max:$value");
     }
+
+    public function size(int $size)
+    {
+        return $this->rule("size:$size");
+    }
 }
