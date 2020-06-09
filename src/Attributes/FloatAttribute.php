@@ -4,9 +4,11 @@ namespace Larapie\Actions\Attributes;
 
 use Faker\Generator;
 use Larapie\Actions\Attribute;
+use Larapie\Actions\Attributes\Rules\FloatRules;
 
 class FloatAttribute extends Attribute
 {
+    use FloatRules;
     protected $cast = 'float';
 
     protected function rules()
@@ -18,4 +20,5 @@ class FloatAttribute extends Attribute
     {
         return $faker->randomFloat(2, 0, 1000);
     }
+
 }

@@ -125,6 +125,10 @@ trait ResolvesValidation
         return $this;
     }
 
+    protected function setValidatorInstance($validator){
+        $this->validator = $validator;
+    }
+
     protected function getValidatorInstance()
     {
         if ($this->validator) {

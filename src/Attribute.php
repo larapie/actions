@@ -4,9 +4,12 @@ namespace Larapie\Actions;
 
 use Faker\Factory;
 use Faker\Generator;
+use Larapie\Actions\Attributes\Rules\GeneralRules;
 
 class Attribute
 {
+    use GeneralRules;
+
     protected $data = [];
 
     protected $cast = null;
@@ -30,11 +33,18 @@ class Attribute
         }
     }
 
+    /**
+     * @return static
+     */
     protected static function make()
     {
         return new static();
     }
 
+
+    /**
+     * @return static
+     */
     public static function default($value)
     {
         $attribute = static::make();
@@ -43,18 +53,25 @@ class Attribute
         return $attribute;
     }
 
+    /**
+     * @return static
+     */
     public static function required()
     {
         return static::make()->require();
     }
 
+    /**
+     * @return static
+     */
     public function require()
     {
-        $this->rule('required');
-
-        return $this;
+        return $this->rule('required');
     }
 
+    /**
+     * @return static
+     */
     public function cast($cast)
     {
         if (is_callable($cast) || is_string($cast)) {
@@ -64,19 +81,20 @@ class Attribute
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public static function optional()
     {
-        $attribute = static::make();
-
-        $attribute->setRules(
-            collect($attribute->getRules())
-                ->reject(function ($value) {
-                    return $value === 'required';
-                })
-                ->toArray()
-        );
-
-        return $attribute;
+        return tap(static::make(), function (Attribute $attribute) {
+            $attribute->setRules(
+                collect($attribute->getRules())
+                    ->reject(function ($value) {
+                        return $value === 'required';
+                    })
+                    ->toArray()
+            );
+        });
     }
 
     /**
@@ -97,6 +115,10 @@ class Attribute
         $this->data['rules'] = $rules;
     }
 
+    /**
+     * @param mixed ...$rules
+     * @return static
+     */
     public function rule(...$rules)
     {
         collect($rules)->each(function ($rule) {
@@ -112,11 +134,12 @@ class Attribute
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function nullable()
     {
-        $this->rule('nullable');
-
-        return $this;
+        return $this->rule('nullable');
     }
 
     public function isNullable(): bool
@@ -142,7 +165,7 @@ class Attribute
         return [];
     }
 
-    public function getRules()
+    public function getRules(): array
     {
         return $this->data['rules'];
     }
@@ -152,7 +175,7 @@ class Attribute
         return $this->cast;
     }
 
-    public function hasDefault()
+    public function hasDefault(): bool
     {
         return array_key_exists('default', $this->data);
     }

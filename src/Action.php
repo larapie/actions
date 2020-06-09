@@ -23,6 +23,8 @@ abstract class Action extends Controller
     protected $actingAs;
     protected $runningAs = 'object';
 
+    protected $runAuthorized = true;
+
     public function __construct(array $attributes = [])
     {
         $this->fill($attributes);
@@ -48,21 +50,43 @@ abstract class Action extends Controller
         return $this->run();
     }
 
-    public function runUnauthorized(array $attributes = [])
+    /**
+     * @param bool $state
+     * @return static
+     */
+    protected function setRunUnauthorized(bool $state)
     {
-        return $this->run($attributes, false);
+        $this->runAuthorized = $state;
+        return $this;
     }
 
-    public function run(array $attributes = [], $authorization = true)
+    /**
+     * @return static
+     */
+    public function bypassAuthorization()
+    {
+        return $this->setRunUnauthorized(false);
+    }
+
+    /**
+     * @return static
+     */
+    public function enableAuthorization()
+    {
+        return $this->setRunUnauthorized(true);
+    }
+
+    public function run(array $attributes = [])
     {
         $this->fill($attributes);
         $this->resolveIncludes();
         $this->resolveBeforeHook();
 
-        if ($authorization) {
+        if ($this->runAuthorized) {
             $this->resolveAuthorization();
         }
 
+        $this->setValidatorInstance(null);
         $this->resolveValidation();
         try {
             $value = $this->resolveAndCall($this, 'handle');
@@ -77,7 +101,7 @@ abstract class Action extends Controller
 
     public function resolveBeforeHook()
     {
-        $method = 'as'.Str::studly($this->runningAs);
+        $method = 'as' . Str::studly($this->runningAs);
 
         if (method_exists($this, $method)) {
             return $this->resolveAndCall($this, $method);
@@ -89,6 +113,9 @@ abstract class Action extends Controller
         return in_array($this->runningAs, is_array($matches) ? $matches : func_get_args());
     }
 
+    /**
+     * @return static
+     */
     public function actingAs($user)
     {
         $this->actingAs = $user;
@@ -118,8 +145,10 @@ abstract class Action extends Controller
         return new static($attributes);
     }
 
-    public static function execute(array $attributes = [], $authorized = true)
+    public static function execute(array $attributes = [])
     {
-        return self::make()->run($attributes, $authorized);
+        return self::make()->run($attributes);
     }
+
+
 }
